@@ -1,0 +1,10 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Food_App" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <itemModel name="colorPrimary">@color/my_light_primary</itemModel> -->
+        <item name="colorOnBackground">#000000</item> <!-- Black text -->
+    </style>
+
+
+</resources>

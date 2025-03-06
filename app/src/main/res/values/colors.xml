@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="startcolorgradient">#443C20</color>
+    <color name="endcolorgradient">#e8a564</color>
+    <color name="fbcolor">#3b5998</color>
+    <color name="hover_color">#86B198</color>
+    <color name="red_100">#F8695A</color>
+    <color name="red_500">#FF1300</color>
+
+    <color name="textColorPrimary">#000000</color> <!-- Black text -->
+    <color name="textColorSecondary">#555555</color>
+    <color name="gray_700">#616161</color>
+</resources>

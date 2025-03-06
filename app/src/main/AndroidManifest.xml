@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".serverconfig.CloudnaryConfig"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/app_icon"
+        android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
+        android:roundIcon="@mipmap/app_icon"
+        android:supportsRtl="true"
+        android:theme="@style/Base.Theme.Food_App"
+        tools:targetApi="31">
+        <activity
+            android:name=".screens.activities.AddCategoryActivity"
+            android:exported="false" />
+
+        <receiver
+            android:name=".utils.NetworkChangeReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".screens.activities.Edit_Profile"
+            android:exported="false" />
+        <activity
+            android:name=".screens.activities.Splash"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".screens.activities.Category_Activity"
+            android:exported="false" />
+        <activity
+            android:name=".Notification"
+            android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
+        <activity
+            android:name=".Order"
+            android:exported="false" />
+        <activity
+            android:name=".Chat"
+            android:exported="false" />
+        <activity
+            android:name=".Home"
+            android:exported="false" />
+        <activity
+            android:name=".screens.activities.Sign_In"
+            android:exported="false" />
+        <activity
+            android:name=".screens.activities.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true" />
+    </application>
+
+</manifest>

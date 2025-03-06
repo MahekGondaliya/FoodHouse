@@ -1,0 +1,56 @@
+ modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464762/apple_nyapwe.jpg", "Apple", 1.99, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464763/banana_vetnkq.jpg", "Banana", 0.99, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464783/orange_ehrvtd.jpg", "Orange", 1.49, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464793/strawberry_pbbfxw.jpg", "Strawberry", 2.99, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464775/grapes_kgwhyr.jpg", "Grapes", 2.49, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464782/mango_ohcziz.jpg", "Mango", 3.99, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464788/pineapple_tekz9f.jpg", "Pineapple", 4.49, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464797/watermelon_yefv5f.jpg", "Watermelon", 5.99, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464765/blueberry_dlooby.jpg", "Blueberry", 3.49, "Fruits"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464781/kiwi_p39laf.jpg", "Kiwi", 2.79, "Fruits"));
+
+
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464925/carrot_dkucf1.jpg", "Carrot", 2.5, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464945/tomato_oln5kk.jpg", "Tomato", 1.8, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464921/broccoli_aszfsr.jpg", "Broccoli", 3.2, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464942/spinach_lmsb0l.jpg", "Spinach", 2.0, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464939/potato_qp8tqf.jpg", "Potato", 1.5, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464922/cabbage_lephy9.jpg", "Cabbage", 2.3, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464935/onion_koeztk.jpg", "Onion", 1.9, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464924/capsicum_tbsp2c.jpg", "Capsicum", 3.0, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464944/pumpkin_pbwivt.jpg", "Pumpkin", 4.5, "Vegetables"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739464926/cucumber_ji3reg.jpg", "Cucumber", 2.1, "Vegetables"));
+
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468856/milk_syuvlw.jpg", "Milk", 2.5, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468852/ghee_d699fq.jpg", "Cheese", 3.8, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468846/butter_gvfd5u.jpg", "Butter", 4.2, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468874/yogurt_bn52nl.jpg", "Yogurt", 2.0, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468846/cheese_lpry2k.jpg", "Cream", 3.5, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468864/paneer_kv4dfm.jpg", "Paneer", 4.0, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468852/ghee_d699fq.jpg", "Ghee", 5.5, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468871/sour_cream_b0jrlq.jpg", "Sour Cream", 3.9, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468849/condensed_milk_dkbyqi.jpg", "Condensed Milk", 4.8, "Dairy"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739468873/whipped_cream_xfhywm.jpg", "Whipped Cream", 5.2, "Dairy"));
+
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469335/rice_qs8jd3.jpg", "Rice", 3.0, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469343/wheat_n1cdpv.jpg", "Wheat", 2.8, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469331/oats_kkkfbn.jpg", "Oats", 4.0, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469325/barley_oliuum.jpg", "Barley", 3.5, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469327/corn_wz1mlf.jpg", "Corn", 2.9, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469333/quinoa_b8oypv.jpg", "Quinoa", 5.0, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469329/millet_ewel4x.jpg", "Millet", 4.3, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469325/buckwheat_xig679.jpg", "Buckwheat", 3.7, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469339/rye_on4mc1.jpg", "Rye", 3.2, "Grains"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469341/sorghum_z4y5up.jpg", "Sorghum", 3.6, "Grains"));
+
+
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469732/almonds_vposwl.jpg", "Almonds", 5.5, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469806/walnuts_m0gipk.jpg", "Walnuts", 6.0, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469765/cashews_flncxq.jpg", "Cashews", 5.2, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469798/pistachios_mfbn5a.jpg", "Pistachios", 6.3, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469796/peanuts_hxxhmj.jpg", "Peanuts", 4.5, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469804/sunflower_seeds_poor6q.jpg", "Sunflower Seeds", 3.9, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469789/chia_seeds_cv6vmz.jpg", "Chia Seeds", 5.8, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469791/flaxseeds_kvwfjm.jpg", "Flaxseeds", 4.0, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469802/pumpkin_seeds_gxghzj.jpg", "Pumpkin Seeds", 4.7, "Nuts & Seeds"));
+        modelList.add(new CategoryModel("https://res.cloudinary.com/foodappimg/image/upload/v1739469793/hazelnuts_iygama.jpg", "Hazelnuts", 6.1, "Nuts & Seeds"));

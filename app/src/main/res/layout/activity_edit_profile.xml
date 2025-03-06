@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editActivity"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".screens.activities.Edit_Profile">
+
+    <!-- Header Title -->
+    <TextView
+        android:id="@+id/textView22"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Edit Profile"
+        android:textColor="@color/endcolorgradient"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Scrollable Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView22">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="24dp">
+
+            <!-- Profile Image Section -->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_image"
+                android:layout_width="140dp"
+                android:layout_height="140dp"
+                android:elevation="8dp"
+                android:src="@drawable/profile"
+                app:civ_border_color="@color/endcolorgradient"
+                app:civ_border_width="4dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Upload Image Text -->
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="8dp"
+                android:gravity="center"
+                android:text="Upload Image"
+                android:textColor="@color/endcolorgradient"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@id/profile_image"
+
+                app:layout_constraintStart_toStartOf="@id/profile_image"
+                app:layout_constraintTop_toBottomOf="@id/profile_image" />
+
+            <!-- Underline View -->
+            <View
+                android:id="@+id/view"
+                android:layout_width="80dp"
+                android:layout_height="2dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/endcolorgradient"
+                app:layout_constraintEnd_toEndOf="@id/textView"
+                app:layout_constraintStart_toStartOf="@id/textView"
+                app:layout_constraintTop_toBottomOf="@id/textView" />
+
+            <!-- Username Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/usernameContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                app:boxStrokeColor="?attr/colorOnBackground"
+                app:hintTextColor="@color/endcolorgradient"
+                app:layout_constraintTop_toBottomOf="@id/view"
+                app:startIconTint="@color/endcolorgradient">
+
+                <EditText
+
+                    android:id="@+id/edtUserName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="User Name"
+                    android:inputType="textPersonName"
+                    android:textColor="@color/endcolorgradient"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Phone Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/phoneContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:boxStrokeColor="?attr/colorOnBackground"
+                app:hintTextColor="@color/endcolorgradient"
+                app:layout_constraintTop_toBottomOf="@id/usernameContainer"
+                app:startIconTint="@color/endcolorgradient">
+
+                <EditText
+                    android:id="@+id/edtPhoneNo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:textColor="@color/endcolorgradient"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Email Input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/emailContainer"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:boxStrokeColor="?attr/colorOnBackground"
+                app:hintTextColor="@color/endcolorgradient"
+                app:layout_constraintTop_toBottomOf="@id/phoneContainer"
+                app:startIconTint="@color/endcolorgradient">
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:cursorVisible="false"
+                    android:enabled="false"
+                    android:focusable="false"
+                    android:hint="Email Address"
+                    android:inputType="none"
+                    android:textColor="@color/endcolorgradient"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Save Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnEdit"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="32dp"
+                android:elevation="4dp"
+                android:text="Save Changes"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:backgroundTint="@color/endcolorgradient"
+                app:cornerRadius="24dp"
+                app:iconGravity="start"
+                app:iconPadding="8dp"
+                app:iconTint="#FFFFFF"
+                app:layout_constraintTop_toBottomOf="@id/emailContainer" />
+
+            <!-- Cancel Text -->
+            <TextView
+                android:id="@+id/txtBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:layout_marginBottom="32dp"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="12dp"
+                android:text="Cancel Changes"
+                android:textColor="@color/endcolorgradient"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/btnEdit" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

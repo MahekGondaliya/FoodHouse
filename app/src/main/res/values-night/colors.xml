@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="startcolorgradient">#443C20</color>
+    <color name="textColorPrimary">#FFFFFF</color> <!-- White text -->
+    <color name="textColorSecondary">#AAAAAA</color>
+</resources>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/category1" android:title="Fruits" />
+    <item android:id="@+id/category2" android:title="Vegetables"/>
+    <item android:id="@+id/category3" android:title="Dairy"/>
+    <item android:id="@+id/category4" android:title="Grains"/>
+    <item android:id="@+id/category5" android:title="Nuts_Seeds"/>
+</menu>
