@@ -15,8 +15,10 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.Group;
 import androidx.fragment.app.Fragment;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.example.food_app.R;
 import com.example.food_app.screens.activities.AddCategoryActivity;
 import com.example.food_app.screens.activities.Edit_Profile;
@@ -35,10 +37,12 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     TextView txtUserName;
-    CardView edtProfile,btnLogout,Admin_Add_categort;
+    CardView edtProfile, btnLogout, Admin_Add_categort;
     CircleImageView profile_image;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String uid = auth.getCurrentUser().getUid();
+    Group mainContent;
+    LottieAnimationView loadingAnimation;
 
 
     public ProfileFragment() {
@@ -56,7 +60,8 @@ public class ProfileFragment extends Fragment {
         edtProfile = view.findViewById(R.id.edtProfile);
         profile_image = view.findViewById(R.id.profile_image);
         Admin_Add_categort = view.findViewById(R.id.Admin_Add_categort);
-
+        loadingAnimation = view.findViewById(R.id.loadingAnimation);
+        mainContent = view.findViewById(R.id.mainContent);
 
 
         // Open Edit Profile Activity
@@ -70,7 +75,7 @@ public class ProfileFragment extends Fragment {
         });
 
         //Open add categort activity
-        Admin_Add_categort.setOnClickListener(v->{
+        Admin_Add_categort.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), AddCategoryActivity.class));
         });
 
@@ -79,10 +84,6 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
-
-
-
-
 
 
     public void logoutUser() {
@@ -96,21 +97,26 @@ public class ProfileFragment extends Fragment {
     }
 
     public void displayData() {
+        // Show Loader & Hide UI
+        loadingAnimation.setVisibility(View.VISIBLE);
+        mainContent.setVisibility(View.GONE);
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users").child(uid);
 
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
+                    loadingAnimation.setVisibility(View.GONE);
+                    mainContent.setVisibility(View.VISIBLE);
                     String username = snapshot.child("username").getValue(String.class);
                     String email = snapshot.child("email").getValue(String.class);
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     String phoneNo = snapshot.child("phoneNo").getValue(String.class);
                     String role = snapshot.child("role").getValue(String.class);
 
-                    if (role.equals("admin") && role != null){
+                    if (role.equals("admin") && role != null) {
                         Admin_Add_categort.setVisibility(View.VISIBLE);
-                    }else {
+                    } else {
                         Admin_Add_categort.setVisibility(View.GONE);
                     }
 

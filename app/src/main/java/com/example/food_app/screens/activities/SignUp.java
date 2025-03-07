@@ -29,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -79,6 +81,14 @@ public class SignUp extends AppCompatActivity {
         });
     }
 
+
+    public static boolean isValidIndianNumber(String number) {
+        String regex = "^[6789]\\d{9}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(number);
+        return matcher.matches();
+    }
+
     private void registerUser() {
         String email = edtEmail.getText().toString().trim();
         String password = edtPassword.getText().toString().trim();
@@ -87,6 +97,10 @@ public class SignUp extends AppCompatActivity {
 
         if (email.isEmpty() || password.isEmpty()) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (!isValidIndianNumber(phoneno)){
+            Toast.makeText(this, "Enter Valid Phone Number..", Toast.LENGTH_SHORT).show();
             return;
         }
 
