@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">FoodHouse</string>
+    <string name="app_name">Food House</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="string_example">From your provided XML layout, I see you\'re trying to create a layout where there is a RelativeLayout containing</string>
+    <string name="app_logo">app_logo</string>
+    <string name="appp_des">This food app helps you explore recipes, order dishes, and stay updated with the latest culinary trends.</string>
 </resources>

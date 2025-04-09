@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.food_app.R;
+import com.example.food_app.screens.activities.Information;
+import com.example.food_app.screens.activities.changePassword;
 import com.example.food_app.screens.activities.AddCategoryActivity;
 import com.example.food_app.screens.activities.Edit_Profile;
 import com.example.food_app.screens.activities.Sign_In;
@@ -37,7 +39,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileFragment extends Fragment {
 
     TextView txtUserName;
-    CardView edtProfile, btnLogout, Admin_Add_categort;
+    CardView edtProfile, btnLogout, Admin_Add_categort,changePass,Information;
     CircleImageView profile_image;
     FirebaseAuth auth = FirebaseAuth.getInstance();
     String uid = auth.getCurrentUser().getUid();
@@ -62,6 +64,8 @@ public class ProfileFragment extends Fragment {
         Admin_Add_categort = view.findViewById(R.id.Admin_Add_categort);
         loadingAnimation = view.findViewById(R.id.loadingAnimation);
         mainContent = view.findViewById(R.id.mainContent);
+        changePass = view.findViewById(R.id.changePassword);
+        Information = view.findViewById(R.id.Information);
 
 
         // Open Edit Profile Activity
@@ -77,6 +81,14 @@ public class ProfileFragment extends Fragment {
         //Open add categort activity
         Admin_Add_categort.setOnClickListener(v -> {
             startActivity(new Intent(getContext(), AddCategoryActivity.class));
+        });
+
+        changePass.setOnClickListener(v->{
+            startActivity(new Intent(getContext(), changePassword.class));
+        });
+
+        Information.setOnClickListener(v->{
+            startActivity(new Intent(getContext(), Information.class));
         });
 
         // Display user data

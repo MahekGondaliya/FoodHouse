@@ -165,6 +165,7 @@
 
             <!-- Change Password Card -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/changePassword"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginVertical="8dp"
@@ -200,6 +201,7 @@
 
             <!-- Information Card -->
             <androidx.cardview.widget.CardView
+                android:id="@+id/Information"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_marginVertical="8dp"

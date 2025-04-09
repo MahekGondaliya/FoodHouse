@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".screens.activities.Information">
+
+  <ScrollView
+      android:id="@+id/scroll_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="16dp"
+      android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_gravity="center">
+
+      <!-- App Logo -->
+      <ImageView
+          android:id="@+id/app_logo"
+          android:layout_width="200dp"
+          android:layout_height="200dp"
+          android:layout_gravity="center"
+          android:src="@drawable/logo"
+          android:contentDescription="@string/app_logo"
+          android:layout_marginBottom="16dp" />
+
+      <!-- App Name -->
+      <TextView
+          android:id="@+id/tv_app_name"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/app_name"
+          android:textAlignment="center"
+          android:textSize="30sp"
+          android:textStyle="bold"
+          android:layout_marginBottom="8dp" />
+
+      <!-- App Version -->
+      <TextView
+          android:id="@+id/tv_version"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Version 1.0.0"
+          android:textAlignment="center"
+          android:textColor="#1F0909"
+          android:layout_marginBottom="24dp" />
+
+      <!-- Description -->
+      <TextView
+          android:id="@+id/tv_description"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="@string/appp_des"
+          android:textSize="16sp"
+          android:lineSpacingMultiplier="1.3"
+          android:layout_marginBottom="24dp" />
+
+      <!-- Contact Section -->
+      <TextView
+          android:id="@+id/tv_contact_title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Contact Us"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          android:layout_marginBottom="8dp" />
+
+      <TextView
+          android:id="@+id/tv_email"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Email: support@foodapp.com"
+          android:textSize="16sp"
+          android:autoLink="email"
+          android:layout_marginBottom="8dp" />
+
+      <TextView
+          android:id="@+id/tv_phone"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Phone: +1 234 567 8901"
+          android:textSize="16sp"
+          android:autoLink="phone"
+          android:layout_marginBottom="24dp" />
+
+      <!-- Privacy Policy -->
+      <TextView
+          android:id="@+id/tv_privacy_title"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Privacy Policy"
+          android:textSize="18sp"
+          android:textStyle="bold"
+          android:layout_marginBottom="8dp" />
+
+      <TextView
+          android:id="@+id/tv_privacy"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:text="Your privacy is important to us. We do not share your information with third parties without consent."
+          android:textSize="16sp"
+          android:lineSpacingMultiplier="1.3" />
+    </LinearLayout>
+  </ScrollView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
