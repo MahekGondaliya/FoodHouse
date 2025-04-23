@@ -7,8 +7,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.food_app.utils.AddToCart;
@@ -51,11 +53,13 @@ public class CategoryRecyclerViewAdapter extends RecyclerView.Adapter<CategoryRe
             AddToCart.addToCart(food,context);
         });
 
+
+
     }
 
     @Override
     public int getItemCount() {
-        return foodList.size(); // Fixed issue
+        return foodList.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {

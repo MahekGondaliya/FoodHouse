@@ -48,7 +48,7 @@ public class Category_Activity extends AppCompatActivity {
                 loadingOrder.setVisibility(View.GONE);
                 // Update RecyclerView
                 runOnUiThread(() -> {
-                    adapter = new CategoryRecyclerViewAdapter(filteredList, getApplicationContext());
+                    adapter = new CategoryRecyclerViewAdapter(filteredList, Category_Activity.this);
                     recyclerViewCategory.setAdapter(adapter);
                 });
 

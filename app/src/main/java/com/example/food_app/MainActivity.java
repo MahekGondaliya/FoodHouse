@@ -1,5 +1,6 @@
 package com.example.food_app;
 
+import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,20 +10,24 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
+import com.example.food_app.screens.activities.Sign_In;
 import com.example.food_app.screens.fragments.CartFragment;
 import com.example.food_app.screens.fragments.HomeFragment;
 import com.example.food_app.screens.fragments.NotificationFragment;
 import com.example.food_app.screens.fragments.OrderFragment;
 import com.example.food_app.screens.fragments.ProfileFragment;
-import com.example.food_app.screens.activities.Sign_In;
 import com.example.food_app.utils.NetworkChangeReceiver;
 import com.example.food_app.utils.NetworkUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -39,6 +44,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+
+        // Register a back pressed callback
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                showLogoutDialog();
+            }
+        });
 
         networkChangeReceiver = new NetworkChangeReceiver(this::onNetworkChange);
         checkInternet();
@@ -68,17 +82,17 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int id = item.getItemId();
-        Fragment selectedfragment = null;
+                Fragment selectedfragment = null;
 
-                if (id==R.id.home){
+                if (id == R.id.home) {
                     selectedfragment = new HomeFragment();
-                }else if (id==R.id.cart){
+                } else if (id == R.id.cart) {
                     selectedfragment = new CartFragment();
-                }else if (id==R.id.notification){
+                } else if (id == R.id.notification) {
                     selectedfragment = new NotificationFragment();
-                }else if (id==R.id.order){
+                } else if (id == R.id.order) {
                     selectedfragment = new OrderFragment();
-                }else if (id==R.id.profile){
+                } else if (id == R.id.profile) {
                     selectedfragment = new ProfileFragment();
                 }
 
@@ -169,6 +183,29 @@ public class MainActivity extends AppCompatActivity {
         }, 4000);
     }
 
+    private void showLogoutDialog() {
+        // Create the dialog
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.setContentView(R.layout.dialog_logout_confirmation);
+        dialog.setCancelable(false); // Prevent closing by tapping outside
+
+        // Get the views
+        TextView txtMessage = dialog.findViewById(R.id.txtLogoutMessage);
+        Button btnCancel = dialog.findViewById(R.id.btnCancel);
+        Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
+
+
+
+        // Button actions
+        btnCancel.setOnClickListener(v -> dialog.dismiss());
+        btnConfirm.setOnClickListener(v -> {
+            finishAffinity();
+            dialog.dismiss();
+        });
+
+
+        dialog.show();
+    }
 
 
 }
