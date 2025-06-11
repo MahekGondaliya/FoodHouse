@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 
 import com.example.food_app.model.CategoryModel;
 
-@Database(entities = {CategoryModel.class}, version = 1, exportSchema = false)
+@Database(entities = {CategoryModel.class}, version = 2, exportSchema = false)
 public abstract class CartDatabase extends RoomDatabase {
     private static volatile CartDatabase INSTANCE;
 

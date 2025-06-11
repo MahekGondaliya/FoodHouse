@@ -22,17 +22,20 @@ public interface CartDao {
     List<CategoryModel> getAllRecords();
 
 
-    @Query("SELECT SUM(totalPrice) FROM cart")
+    @Query("SELECT SUM(price * count) FROM cart")
     double getTotalPrice();
+
 
     @Query("SELECT EXISTS(SELECT 1 FROM cart WHERE name = :name)")
     boolean isItemExists(String name);
 
-    @Query("UPDATE cart SET count = count + 1, totalPrice = price * (count + 1) WHERE id = :id")
+    @Query("UPDATE cart SET count = count + 1 WHERE id = :id")
     void increaseCount(int id);
 
-    @Query("UPDATE cart SET count = count - 1, totalPrice = price * (count - 1) WHERE id = :id AND count > 1")
+    @Query("UPDATE cart SET count = count - 1 WHERE id = :id AND count > 1")
     void decreaseCount(int id);
+
+
 
     @Query("DELETE FROM cart")
     void deleteAllCategories();

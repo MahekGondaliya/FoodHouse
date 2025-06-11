@@ -2,9 +2,11 @@ package com.example.food_app.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+
 import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
@@ -20,9 +22,6 @@ public class CategoryModel implements Parcelable {
     @ColumnInfo(name = "price")
     private double price;
 
-    @ColumnInfo(name = "totalPrice")
-    private Double totalPrice;
-
     @ColumnInfo(name = "imageResource")
     private String imageResource;
 
@@ -32,15 +31,13 @@ public class CategoryModel implements Parcelable {
     @ColumnInfo(name = "category")
     private String category;
 
-    public CategoryModel() {
-    }
+    public CategoryModel() {}
 
     public CategoryModel(String imageResource, String name, double price, String category) {
         this.imageResource = imageResource;
         this.name = name;
         this.price = price;
         this.count = 1;
-        this.totalPrice = price * count;
         this.category = category;
     }
 
@@ -48,7 +45,6 @@ public class CategoryModel implements Parcelable {
         id = in.readInt();
         name = in.readString();
         price = in.readDouble();
-        totalPrice = in.readDouble();
         imageResource = in.readString();
         count = in.readInt();
         category = in.readString();
@@ -78,14 +74,6 @@ public class CategoryModel implements Parcelable {
         this.price = price;
     }
 
-    public Double getTotalPrice() {
-        return totalPrice;
-    }
-
-    public void setTotalPrice(Double totalPrice) {
-        this.totalPrice = totalPrice;
-    }
-
     public String getImageResource() {
         return imageResource;
     }
@@ -110,6 +98,11 @@ public class CategoryModel implements Parcelable {
         this.category = category;
     }
 
+    // ❗ Dynamic total price calculation
+    public double getTotalPrice() {
+        return price * count;
+    }
+
     public static final Creator<CategoryModel> CREATOR = new Creator<CategoryModel>() {
         @Override
         public CategoryModel createFromParcel(Parcel in) {
@@ -132,7 +125,6 @@ public class CategoryModel implements Parcelable {
         dest.writeInt(id);
         dest.writeString(name);
         dest.writeDouble(price);
-        dest.writeDouble(totalPrice);
         dest.writeString(imageResource);
         dest.writeInt(count);
         dest.writeString(category);

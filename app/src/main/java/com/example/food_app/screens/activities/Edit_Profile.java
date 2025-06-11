@@ -67,15 +67,10 @@ public class Edit_Profile extends AppCompatActivity {
 
         displayData();
 
-        // Handle back button click - Navigate to ProfileFragment
-        txtBack.setOnClickListener(v -> {
-            finish();
-        });
+        txtBack.setOnClickListener(v -> finish());
 
-        // Handle profile image click
         profile_image.setOnClickListener(v -> openFileChooser());
 
-        // Handle edit button click
         btnEdit.setOnClickListener(v -> {
             String username = edtUserName.getText().toString().trim();
             String email = edtEmail.getText().toString().trim();
@@ -85,8 +80,17 @@ public class Edit_Profile extends AppCompatActivity {
                 Toast.makeText(Edit_Profile.this, "Please fill all fields!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            if (phoneno.length()!=10){
+                Toast.makeText(this, "Enter Valid 10 digit number", Toast.LENGTH_SHORT).show();
+            }
 
-            updateUserData(uid, username, imageUrl, phoneno);
+            if (imageUri != null) {
+                // Upload image and update profile
+                uploadImageToCloudinaryAndUpdate(uid, username, phoneno);
+            } else {
+                // No new image selected
+                updateUserData(uid, username, imageUrl, phoneno);
+            }
         });
     }
 
@@ -100,14 +104,14 @@ public class Edit_Profile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
-            uploadImageToCloudinary(imageUri);
+            profile_image.setImageURI(imageUri); // Show preview immediately
         }
     }
 
-    private void uploadImageToCloudinary(Uri fileUri) {
-        Toast.makeText(this, "Uploading...", Toast.LENGTH_SHORT).show();
+    private void uploadImageToCloudinaryAndUpdate(String userId, String username, String phoneNo) {
+        Toast.makeText(this, "Uploading image...", Toast.LENGTH_SHORT).show();
 
-        MediaManager.get().upload(fileUri)
+        MediaManager.get().upload(imageUri)
                 .option("folder", "profileImg")
                 .callback(new UploadCallback() {
                     @Override
@@ -121,11 +125,15 @@ public class Edit_Profile extends AppCompatActivity {
                         imageUrl = (String) result.get("secure_url");
                         Picasso.get().load(imageUrl).into(profile_image);
                         Toast.makeText(Edit_Profile.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
+
+                        // Now update Firebase after image is uploaded
+                        updateUserData(userId, username, imageUrl, phoneNo);
                     }
 
                     @Override
                     public void onError(String requestId, com.cloudinary.android.callback.ErrorInfo error) {
                         Toast.makeText(Edit_Profile.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+                        Log.e("CloudinaryUpload", error.getDescription());
                     }
 
                     @Override
@@ -172,19 +180,17 @@ public class Edit_Profile extends AppCompatActivity {
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("username", newUsername);
-//        updates.put("email", newEmail);
         updates.put("imageUrl", newImageUrl);
         updates.put("phoneNo", newPhoneNo);
 
         databaseReference.updateChildren(updates)
                 .addOnSuccessListener(aVoid -> {
-
-                    Toast.makeText(Edit_Profile.this, "Update Successfully...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Profile.this, "Profile Updated Successfully", Toast.LENGTH_SHORT).show();
                     finish();
                 })
                 .addOnFailureListener(e -> {
                     Log.e("FirebaseUpdate", "Update Failed: " + e.getMessage());
-                    Toast.makeText(Edit_Profile.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Edit_Profile.this, "Update Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                 });
     }
 }

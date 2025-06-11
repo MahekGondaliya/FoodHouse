@@ -1,5 +1,6 @@
 package com.example.food_app.screens.activities;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,7 +30,15 @@ public class Category_Activity extends AppCompatActivity {
         recyclerViewCategory = findViewById(R.id.recyclerViewCategory);
         loadingOrder = findViewById(R.id.loadingOrder);
 
-        recyclerViewCategory.setLayoutManager(new GridLayoutManager(this, 2));
+
+        int spanCount;
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            spanCount = 4; // More columns in landscape
+        } else {
+            spanCount = 2; // Fewer columns in portrait
+        }
+
+        recyclerViewCategory.setLayoutManager(new GridLayoutManager(this, spanCount));
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

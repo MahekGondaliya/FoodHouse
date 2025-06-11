@@ -56,8 +56,12 @@ public class AddCategoryActivity extends AppCompatActivity {
         tvCategory.setOnClickListener(view -> showCategoryMenu());
 
         btnSave.setOnClickListener(v -> {
-            if (validateInputs()) {
-                addDataToFirestore();
+            if (!validateInputs()) return;
+
+            if (imageUri != null) {
+                uploadImageToCloudinaryAndSaveData();
+            } else {
+                Toast.makeText(this, "Please select an image!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -72,13 +76,13 @@ public class AddCategoryActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            uploadImageToCloudinary();
+            imgPreview.setImageURI(imageUri); // Only preview, no upload yet
         } else {
             Toast.makeText(this, "No image selected!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void uploadImageToCloudinary() {
+    private void uploadImageToCloudinaryAndSaveData() {
         if (selectedItem == null || selectedItem.isEmpty()) {
             Toast.makeText(this, "Please select a category first!", Toast.LENGTH_SHORT).show();
             return;
@@ -92,6 +96,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                 .callback(new UploadCallback() {
                     @Override
                     public void onStart(String requestId) {}
+
                     @Override
                     public void onProgress(String requestId, long bytes, long totalBytes) {}
 
@@ -99,12 +104,13 @@ public class AddCategoryActivity extends AppCompatActivity {
                     public void onSuccess(String requestId, Map result) {
                         imageUrl = (String) result.get("secure_url");
                         Picasso.get().load(imageUrl).into(imgPreview);
-                        Toast.makeText(AddCategoryActivity.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCategoryActivity.this, "Image uploaded!", Toast.LENGTH_SHORT).show();
+                        addDataToFirestore(); // Add data after image is uploaded
                     }
 
                     @Override
                     public void onError(String requestId, ErrorInfo error) {
-                        Toast.makeText(AddCategoryActivity.this, "Upload Failed: " + error.getDescription(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AddCategoryActivity.this, "Upload failed: " + error.getDescription(), Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -127,10 +133,18 @@ public class AddCategoryActivity extends AppCompatActivity {
         String name = etName.getText().toString().trim();
         String priceText = etPrice.getText().toString().trim();
 
-        if (name.isEmpty() || priceText.isEmpty() || selectedItem == null || imageUrl == null) {
-            Toast.makeText(this, "Please fill all fields and upload an image!", Toast.LENGTH_SHORT).show();
+        if (name.isEmpty() || priceText.isEmpty() || selectedItem == null) {
+            Toast.makeText(this, "Please fill all fields and select a category!", Toast.LENGTH_SHORT).show();
             return false;
         }
+
+        try {
+            Double.parseDouble(priceText);
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Enter a valid numeric price!", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
         return true;
     }
 
@@ -142,6 +156,7 @@ public class AddCategoryActivity extends AppCompatActivity {
                 .addOnSuccessListener(documentReference -> {
                     Toast.makeText(this, "Item added successfully!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(AddCategoryActivity.this, MainActivity.class));
+                    finish();
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(this, "Failed to add item: " + e.getMessage(), Toast.LENGTH_SHORT).show();

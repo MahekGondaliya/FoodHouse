@@ -19,12 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.example.food_app.CartDao;
 import com.example.food_app.CartDatabase;
+import com.example.food_app.CartViewModel;
 import com.example.food_app.R;
 import com.example.food_app.adapter.CartAdapter;
 import com.example.food_app.model.CategoryModel;
@@ -36,29 +39,23 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class CartFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CartAdapter cartAdapter;
     private LinearLayout llOrders;
-
     private LottieAnimationView loadingOrderSucess;
-
     private TextView cartHide;
     private final List<CategoryModel> categoryEntityList = new ArrayList<>();
     private AppCompatButton btnPlaceOrder;
     private TextView SubTotal, total;
     private CartDatabase dbcart;
-    private ExecutorService executorService;
     private final Handler handler = new Handler();
     private Runnable updateTotalRunnable;
+    private CartViewModel cartViewModel;
 
-    public CartFragment() {
-        // Required empty public constructor
-    }
+    public CartFragment() {}
 
     @Nullable
     @Override
@@ -77,19 +74,26 @@ public class CartFragment extends Fragment {
         cartAdapter = new CartAdapter(categoryEntityList, cartHide);
         recyclerView.setAdapter(cartAdapter);
 
-        executorService = Executors.newSingleThreadExecutor();
+        dbcart = CartDatabase.getInstance(requireContext());
 
-        btnPlaceOrder.setOnClickListener(new View.OnClickListener() {
+        cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+        cartViewModel.getCartItems(requireContext()).observe(getViewLifecycleOwner(), new Observer<List<CategoryModel>>() {
             @Override
-            public void onClick(View view) {
-                showConformationDialog();
+            public void onChanged(List<CategoryModel> items) {
+                if (items.isEmpty()) {
+                    cartHide.setVisibility(View.VISIBLE);
+                } else {
+                    cartHide.setVisibility(View.GONE);
+                    categoryEntityList.clear();
+                    categoryEntityList.addAll(items);
+                    cartAdapter.notifyDataSetChanged();
+                }
             }
         });
 
-        loadCartItems();
+        btnPlaceOrder.setOnClickListener(view1 -> showConformationDialog());
+
         startUpdatingTotal();
-
-
 
         return view;
     }
@@ -106,49 +110,17 @@ public class CartFragment extends Fragment {
 
         FirebaseHelperForOrder.saveModelToFirebase(order);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                 loadingOrderSucess.setVisibility(View.GONE);
-
-                Toast.makeText(getContext(), "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
-
-                // Replace current fragment with OrderFragment
-                OrderFragment orderFragment = new OrderFragment();
-                FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
-                transaction.replace(R.id.container, orderFragment); // Ensure you have a FrameLayout with this ID
-                transaction.addToBackStack(null); // Enables back navigation
-
-                BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bnView);
-                bottomNavigationView.setSelectedItemId(R.id.order);
-                transaction.commit();
-            }
-        },2000);
-
-
-    }
-
-
-    private void loadCartItems() {
-        dbcart = CartDatabase.getInstance(requireContext());
-        CartDao cartDao = dbcart.cartDao();
-
-        executorService.execute(() -> {
-            List<CategoryModel> items = cartDao.getAllRecords();
-            requireActivity().runOnUiThread(() -> {
-                if (items.isEmpty()){
-                    cartHide.setVisibility(View.VISIBLE);
-                }
-                if (items != null && !items.isEmpty()) {
-                    categoryEntityList.clear();
-                    categoryEntityList.addAll(items);
-                    cartAdapter.notifyDataSetChanged();
-                } else {
-
-                    Log.e("CartFragment", "Cart is empty or failed to load");
-                }
-            });
-        });
+        new Handler().postDelayed(() -> {
+            loadingOrderSucess.setVisibility(View.GONE);
+            Toast.makeText(getContext(), "Order Placed Successfully!", Toast.LENGTH_SHORT).show();
+            OrderFragment orderFragment = new OrderFragment();
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.container, orderFragment);
+            transaction.addToBackStack(null);
+            BottomNavigationView bottomNavigationView = requireActivity().findViewById(R.id.bnView);
+            bottomNavigationView.setSelectedItemId(R.id.order);
+            transaction.commit();
+        }, 2000);
     }
 
     private void startUpdatingTotal() {
@@ -157,7 +129,7 @@ public class CartFragment extends Fragment {
             public void run() {
                 if (isAdded() && dbcart != null) {
                     CartDao cartDao = dbcart.cartDao();
-                    executorService.execute(() -> {
+                    new Thread(() -> {
                         Double totalPrice = cartDao.getTotalPrice();
                         requireActivity().runOnUiThread(() -> {
                             if (isAdded()) {
@@ -171,8 +143,7 @@ public class CartFragment extends Fragment {
                                 }
                             }
                         });
-                    });
-
+                    }).start();
                     handler.postDelayed(this, 1000);
                 }
             }
@@ -184,43 +155,28 @@ public class CartFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         handler.removeCallbacks(updateTotalRunnable);
-        if (executorService != null) {
-            executorService.shutdown();
-        }
     }
 
     private void showConformationDialog() {
-        // Create the dialog
         Dialog dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.dialog_order_confirmation);
         dialog.setCancelable(false);
 
-        // Get the views
-
         Button btnCancel = dialog.findViewById(R.id.btnCancel);
         Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
 
-
-        // Apply the fade-in animation to the dialog
         ObjectAnimator fadeIn = ObjectAnimator.ofFloat(dialog.getWindow().getDecorView(), "alpha", 0f, 1f);
         fadeIn.setInterpolator(new AccelerateDecelerateInterpolator());
         fadeIn.setDuration(500);
         fadeIn.start();
 
-        // Button actions
         btnCancel.setOnClickListener(v -> dialog.dismiss());
         btnConfirm.setOnClickListener(v -> {
             loadingOrderSucess.setVisibility(View.VISIBLE);
             saveDataToFireBase();
-            executorService.execute(new Runnable() {
-                @Override
-                public void run() {
-                    dbcart.cartDao().deleteAllCategories();
-                }
-            });
+            cartViewModel.clearCart(requireContext());
             dialog.dismiss();
         });
-
 
         dialog.show();
     }

@@ -39,6 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private NetworkChangeReceiver networkChangeReceiver;
     private AlertDialog noInternetDialog;
 
+    private static boolean hasShownWelcome = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            showWelcomeDialog();
+
+            if (!hasShownWelcome) {
+                hasShownWelcome = true;
+                showWelcomeDialog();
+            }
         }
 
 
@@ -104,6 +110,8 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+
 
 
     }
