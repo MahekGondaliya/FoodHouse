@@ -7,6 +7,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,13 +16,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.UploadCallback;
 import com.example.food_app.MainActivity;
 import com.example.food_app.R;
 import com.example.food_app.model.Usermodel;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,18 +35,19 @@ import java.util.regex.Pattern;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUp extends AppCompatActivity {
+
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri imageUri;
-    TextView txtLogin;
+    private String imageUrl;
+    LottieAnimationView loader;
+    LinearLayout mainlayout;
+
+    EditText edtUserName, edtPhoneNo, edtEmail, edtPassword;
     Button btnRegister;
-
-    EditText edtPassword, edtEmail, edtPhoneNo, edtUserName;
-
+    TextView txtLogin;
     CircleImageView profile_image;
 
     FirebaseAuth auth;
-    String imageUrl;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +57,6 @@ public class SignUp extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
 
-
         txtLogin = findViewById(R.id.txtLogin);
         btnRegister = findViewById(R.id.btnRegister);
         edtUserName = findViewById(R.id.edtUserName);
@@ -64,56 +64,21 @@ public class SignUp extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPassword = findViewById(R.id.edtPassword);
         profile_image = findViewById(R.id.profile_image);
-
+        loader = findViewById(R.id.loader);
+        mainlayout = findViewById(R.id.mainlayout);
 
         profile_image.setOnClickListener(v -> openFileChooser());
 
-        txtLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignUp.this, Sign_In.class);
-                startActivity(intent);
-            }
-        });
+        txtLogin.setOnClickListener(v -> startActivity(new Intent(SignUp.this, Sign_In.class)));
 
         btnRegister.setOnClickListener(v -> {
-            registerUser();
-        });
-    }
-
-
-    public static boolean isValidIndianNumber(String number) {
-        String regex = "^[6789]\\d{9}$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(number);
-        return matcher.matches();
-    }
-
-    private void registerUser() {
-        String email = edtEmail.getText().toString().trim();
-        String password = edtPassword.getText().toString().trim();
-        String username = edtUserName.getText().toString().trim();
-        String phoneno = edtPhoneNo.getText().toString().trim();
-
-        if (email.isEmpty() || password.isEmpty()) {
-            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if (!isValidIndianNumber(phoneno)){
-            Toast.makeText(this, "Enter Valid Phone Number..", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    saveUserToFirebase(username,email,imageUrl,phoneno);
-                    Toast.makeText(SignUp.this, "Registration Successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(SignUp.this, MainActivity.class));
-                    finish();
-                } else {
-                    Toast.makeText(SignUp.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+            if (imageUri == null) {
+                Toast.makeText(this, "Please select a profile image", Toast.LENGTH_SHORT).show();
+            } else {
+                if (validateInputs()) {
+                    loader.setVisibility(View.VISIBLE);
+                    mainlayout.setVisibility(View.GONE);
+                    uploadImageToCloudinary(imageUri);
                 }
             }
         });
@@ -129,63 +94,108 @@ public class SignUp extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
-            uploadImageToCloudinary(imageUri);
+            profile_image.setImageURI(imageUri); // Just preview
         }
     }
 
     private void uploadImageToCloudinary(Uri fileUri) {
-
-        Toast.makeText(SignUp.this, "Uploading...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(SignUp.this, "Uploading Image...", Toast.LENGTH_SHORT).show();
 
         MediaManager.get().upload(fileUri)
                 .option("folder", "profileImg")
                 .callback(new UploadCallback() {
                     @Override
-                    public void onStart(String requestId) {
-                        // Upload started
-                    }
+                    public void onStart(String requestId) {}
 
                     @Override
-                    public void onProgress(String requestId, long bytes, long totalBytes) {
-                        // Progress update
-                    }
+                    public void onProgress(String requestId, long bytes, long totalBytes) {}
 
                     @Override
                     public void onSuccess(String requestId, Map result) {
                         imageUrl = (String) result.get("secure_url");
                         Picasso.get().load(imageUrl).into(profile_image);
-                        Toast.makeText(SignUp.this, "Upload Successful!", Toast.LENGTH_SHORT).show();
-
-
+                        registerUser(); // Now register
                     }
 
                     @Override
                     public void onError(String requestId, com.cloudinary.android.callback.ErrorInfo error) {
-                        Toast.makeText(SignUp.this, "Upload Failed!", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(SignUp.this, "Image Upload Failed!", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onReschedule(String requestId, com.cloudinary.android.callback.ErrorInfo error) {
-                        // Handle reschedule
-                    }
+                    public void onReschedule(String requestId, com.cloudinary.android.callback.ErrorInfo error) {}
                 }).dispatch();
     }
 
-    public void saveUserToFirebase(String username, String email, String imageUrl,String phoneno) {
-        // Get Firebase Database Reference
+    private void registerUser() {
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String username = edtUserName.getText().toString().trim();
+        String phoneno = edtPhoneNo.getText().toString().trim();
+
+        auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        saveUserToFirebase(username, email, imageUrl, phoneno);
+                        Toast.makeText(SignUp.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(SignUp.this, MainActivity.class));
+                        finish();
+                    } else {
+                        loader.setVisibility(View.GONE);
+                        mainlayout.setVisibility(View.VISIBLE);
+                        Toast.makeText(SignUp.this, "Registration Failed: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void saveUserToFirebase(String username, String email, String imageUrl, String phoneno) {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
-        // Generate a unique ID for each user
         String userId = auth.getCurrentUser().getUid();
+        Usermodel user = new Usermodel(username, email, imageUrl, phoneno);
 
-        // Create a new User object
-        Usermodel user = new Usermodel(username, email, imageUrl,phoneno);
-
-        // Store data in Firebase
         if (userId != null) {
             databaseReference.child(userId).setValue(user);
-
         }
     }
 
+    private boolean validateInputs() {
+        String email = edtEmail.getText().toString().trim();
+        String password = edtPassword.getText().toString().trim();
+        String username = edtUserName.getText().toString().trim();
+        String phoneno = edtPhoneNo.getText().toString().trim();
+
+        if (username.isEmpty() || phoneno.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            Toast.makeText(this, "Enter a valid Email address", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!isValidIndianNumber(phoneno)) {
+            Toast.makeText(this, "Enter valid 10-digit Indian phone number", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if (!isValidPassword(password)) {
+            Toast.makeText(this, "Password must be at least 6 characters and contain a letter and number", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean isValidIndianNumber(String number) {
+        String regex = "^[6-9]\\d{9}$";
+        return number.matches(regex);
+    }
+
+    private boolean isValidPassword(String password) {
+        // At least one letter, one digit, and 6 characters minimum
+        String regex = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{6,}$";
+        return password.matches(regex);
+    }
 }
