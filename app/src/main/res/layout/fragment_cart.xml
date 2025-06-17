@@ -48,8 +48,8 @@
            android:layout_marginStart="15dp"
            android:layout_marginTop="40dp"
            android:text="Order Items Details : "
-           android:textColor="?attr/colorOnBackground"
-           android:textSize="24sp"
+           android:textColor="@color/endcolorgradient"
+           android:textSize="30sp"
            android:textStyle="bold" />
 
        <!-- Use NestedScrollView instead of ScrollView -->

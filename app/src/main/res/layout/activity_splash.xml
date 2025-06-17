@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:gravity="center"
     android:layout_height="match_parent"
-    android:background="@color/endcolorgradient"
+    android:background="#CE9350"
     tools:context=".screens.activities.Splash">
 
 
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/logo"
-            app:tint="#2E2E07" />
+             />
 
 
 

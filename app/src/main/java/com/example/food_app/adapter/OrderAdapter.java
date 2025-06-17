@@ -23,7 +23,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     private final Context context;
     private final List<OrderModel> orderModelList;
 
-    private int orderId =1;
+
 
     public OrderAdapter(Context context, List<OrderModel> orderModelList) {
         this.context = context;
@@ -40,7 +40,8 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull OrderAdapter.ViewHolder holder, int position) {
         OrderModel model = orderModelList.get(position);
-        holder.orderId.setText("Order No: " + orderId++);
+        int orderNumber = orderModelList.size() - position;
+        holder.orderId.setText("Order No: " + orderNumber);
         holder.orderDate.setText("Date: " + model.getCurrentDateTime());
 
         holder.orderDetails.setOnClickListener(view -> {

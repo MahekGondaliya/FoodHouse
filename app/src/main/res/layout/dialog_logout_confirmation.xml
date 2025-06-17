@@ -1,68 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/dialog_background"
+    android:orientation="vertical"
     android:padding="24dp">
 
-    <!-- Lottie Animation Centered -->
+    <!-- Lottie Animation -->
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/lottieAnimationView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
+        android:layout_gravity="center"
         app:lottie_rawRes="@raw/logout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+     />
 
-    <!-- Logout Message Text -->
+    <!-- Logout Message -->
     <TextView
         android:id="@+id/txtLogoutMessage"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="24dp"
-        android:gravity="center"
-        android:text="Are you sure you want to quit?"
-        android:textColor="?attr/colorOnBackground"
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lottieAnimationView"/>
+        android:text="Are you sure want to logout?"
+        android:textSize="15sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:layout_gravity="center"
+ />
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
 
     <!-- Cancel Button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnCancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="8dp"
+        android:layout_weight="1"
         android:background="@drawable/button_border"
         android:text="NO"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/btnConfirm"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtLogoutMessage"/>
+       />
 
     <!-- Confirm Button -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnConfirm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_weight="1"
+        android:layout_marginStart="8dp"
         android:background="@drawable/button_filled"
         android:text="YES"
+        android:textAllCaps="false"
+        android:textSize="16sp"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/btnCancel"
-        app:layout_constraintTop_toBottomOf="@id/txtLogoutMessage"/>
+  />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
+
+</LinearLayout>

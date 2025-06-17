@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
 
     tools:context=".screens.fragments.NotificationFragment">
 
   <TextView
+      android:id="@+id/No_Notification"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:text="No Notification"
@@ -14,7 +16,45 @@
       android:textColor="?attr/colorOnBackground"
       android:gravity="center"
       android:textSize="25sp"
+      android:visibility="gone"
       android:fontFamily="serif-monospace"
       />
 
-</FrameLayout>
+  <TextView
+      android:id="@+id/notification"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Notification : "
+      android:visibility="gone"
+      android:textStyle="bold"
+      android:layout_marginTop="30dp"
+      android:layout_marginStart="15dp"
+      android:textColor="@color/endcolorgradient"
+      android:textSize="30sp"
+    android:letterSpacing="0.07"
+      />
+
+
+  <!-- Loading Animation -->
+
+
+  <com.airbnb.lottie.LottieAnimationView
+      android:id="@+id/loadingAnimation"
+      android:visibility="gone"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_centerInParent="true"
+      app:lottie_autoPlay="true"
+      app:lottie_loop="true"
+      app:lottie_rawRes="@raw/profile_loader" />
+
+  <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/notificationRecyclerView"
+        android:padding="20dp"
+      android:layout_below="@+id/notification"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+
+</RelativeLayout>

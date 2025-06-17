@@ -77,6 +77,7 @@ public class CartFragment extends Fragment {
         dbcart = CartDatabase.getInstance(requireContext());
 
         cartViewModel = new ViewModelProvider(this).get(CartViewModel.class);
+
         cartViewModel.getCartItems(requireContext()).observe(getViewLifecycleOwner(), new Observer<List<CategoryModel>>() {
             @Override
             public void onChanged(List<CategoryModel> items) {

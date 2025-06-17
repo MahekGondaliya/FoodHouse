@@ -42,7 +42,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
                             android:text="Order Your Favorite"
-                            android:textColor="?attr/colorOnBackground"
+                            android:textColor="@color/endcolorgradient"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="0"
                             android:text="Fast Food !"
-                            android:textColor="?attr/colorOnBackground"
+                            android:textColor="@color/endcolorgradient"
                             android:textSize="30sp"
                             android:textStyle="bold" />
 

@@ -1,9 +1,13 @@
 package com.example.food_app.screens.activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.WindowInsets;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.cloudinary.android.MediaManager;
 import com.cloudinary.android.callback.ErrorInfo;
@@ -30,7 +35,7 @@ public class AddCategoryActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     private EditText etName, etPrice;
-    private Button btnSelectImage, btnSave;
+    private AppCompatButton btnSelectImage,btnSave;
     private ImageView imgPreview;
     private TextView tvCategory;
     private Uri imageUri;
@@ -40,7 +45,14 @@ public class AddCategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+          getWindow().setStatusBarColor(Color.TRANSPARENT);
+
+
         setContentView(R.layout.activity_add_category);
+
+
 
         etName = findViewById(R.id.etName);
         etPrice = findViewById(R.id.etPrice);

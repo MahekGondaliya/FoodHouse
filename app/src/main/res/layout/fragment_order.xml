@@ -47,7 +47,7 @@
            android:layout_marginTop="30dp"
            android:text="Ordered List :"
            android:textSize="30sp"
-           android:textColor="?attr/colorOnBackground"
+           android:textColor="@color/endcolorgradient"
            android:textStyle="bold" />
 
        <androidx.recyclerview.widget.RecyclerView

@@ -18,6 +18,8 @@ import com.example.food_app.model.OrderModel;
 import com.example.food_app.serverconfig.FirebaseHelperToGetOrder;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -57,18 +59,19 @@ public class OrderFragment extends Fragment {
     private boolean getOrderList() {
          loadingOrder.setVisibility(View.VISIBLE);
         FirebaseHelperToGetOrder.getAllOrdersForUser(new FirebaseHelperToGetOrder.FirebaseOrdersCallback() {
+
             @Override
             public void onSuccess(List<OrderModel> orders) {
-              loadingOrder.setVisibility(View.GONE);
+                loadingOrder.setVisibility(View.GONE);
                 if (orders.isEmpty()) {
                     ordersHide.setVisibility(View.VISIBLE);
                 } else {
+                    Collections.reverse(orders); // Show latest orders at the top
                     orderAdapter = new OrderAdapter(getContext(), orders);
                     orderRecyclerView.setAdapter(orderAdapter);
                 }
-
-
             }
+
 
             @Override
             public void onFailure(String errorMessage) {

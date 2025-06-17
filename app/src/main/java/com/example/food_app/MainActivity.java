@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.food_app.screens.activities.Sign_In;
 import com.example.food_app.screens.fragments.CartFragment;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     private NetworkChangeReceiver networkChangeReceiver;
     private AlertDialog noInternetDialog;
+    private long backPressedTime;
 
     private static boolean hasShownWelcome = false;
 
@@ -48,13 +50,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        // Register a back pressed callback
-        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
-            @Override
-            public void handleOnBackPressed() {
-                showLogoutDialog();
-            }
-        });
 
         networkChangeReceiver = new NetworkChangeReceiver(this::onNetworkChange);
         checkInternet();
@@ -115,6 +110,32 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+
+
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.container);
+
+        if (currentFragment instanceof HomeFragment) {
+            if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                finishAffinity();
+                super.onBackPressed();
+            } else {
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+                backPressedTime = System.currentTimeMillis();
+            }
+
+        } else {
+            fragmentManager
+                    .beginTransaction()
+                    .replace(R.id.container, new HomeFragment())
+                    .commit();
+        }
+    }
+
+
 
     private void checkInternet() {
         if (!NetworkUtil.isInternetAvailable(this)) {
@@ -191,29 +212,6 @@ public class MainActivity extends AppCompatActivity {
         }, 4000);
     }
 
-    private void showLogoutDialog() {
-        // Create the dialog
-        Dialog dialog = new Dialog(MainActivity.this);
-        dialog.setContentView(R.layout.dialog_logout_confirmation);
-        dialog.setCancelable(false); // Prevent closing by tapping outside
-
-        // Get the views
-        TextView txtMessage = dialog.findViewById(R.id.txtLogoutMessage);
-        Button btnCancel = dialog.findViewById(R.id.btnCancel);
-        Button btnConfirm = dialog.findViewById(R.id.btnConfirm);
-
-
-
-        // Button actions
-        btnCancel.setOnClickListener(v -> dialog.dismiss());
-        btnConfirm.setOnClickListener(v -> {
-            finishAffinity();
-            dialog.dismiss();
-        });
-
-
-        dialog.show();
-    }
 
 
 }
