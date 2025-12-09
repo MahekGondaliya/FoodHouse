@@ -1,6 +1,6 @@
 package com.example.food_app;
 
-import android.animation.ObjectAnimator;
+
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,13 +10,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import android.view.MenuItem;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
-import android.widget.TextView;
+
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
-import androidx.activity.OnBackPressedCallback;
+
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
