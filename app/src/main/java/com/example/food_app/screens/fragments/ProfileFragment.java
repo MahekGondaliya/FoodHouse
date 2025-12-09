@@ -1,8 +1,11 @@
 package com.example.food_app.screens.fragments;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.animation.ObjectAnimator;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -85,6 +88,8 @@ public class ProfileFragment extends Fragment {
         // Load Profile Data
         loadUserData();
 
+
+
         return view;
     }
 
@@ -133,6 +138,12 @@ public class ProfileFragment extends Fragment {
                     String username = snapshot.child("username").getValue(String.class);
                     String imageUrl = snapshot.child("imageUrl").getValue(String.class);
                     String role = snapshot.child("role").getValue(String.class);
+
+                    SharedPreferences sp =
+                            requireContext().getSharedPreferences("app_prefs", MODE_PRIVATE);
+
+                    sp.edit().putString("USER_ROLE", role).apply();
+
 
                     txtUserName.setText(username != null ? username : "User");
 

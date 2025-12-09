@@ -17,6 +17,7 @@
         android:roundIcon="@mipmap/app_icon"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.Food_App"
+
         tools:targetApi="31">
         <activity
             android:name=".screens.activities.Notification_Manager"

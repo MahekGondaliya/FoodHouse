@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    card_view:cardCornerRadius="12dp"
+    card_view:cardElevation="4dp"
+  >
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="30dp"
+           android:orientation="horizontal"
+           tools:ignore="UseCompoundDrawables">
+
+           <TextView
+               android:id="@+id/textTitle"
+               android:text="Notification Title"
+               android:textStyle="bold"
+               android:textSize="20sp"
+               android:textColor="?attr/colorOnBackground"
+               android:layout_width="wrap_content"
+               android:layout_weight="1"
+               android:layout_height="wrap_content" />
+
+           <ImageView
+               android:id="@+id/deleteIcon"
+               android:layout_width="30dp"
+               android:layout_height="30dp"
+               android:src="@drawable/deleteicon" />
+
+       </LinearLayout>
+
+        <TextView
+            android:id="@+id/textSubtitle"
+            android:text="Subtitle or Category"
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="6dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textDescription"
+            android:text="      This is a short description of the notification content."
+            android:textSize="14sp"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textDate"
+            android:text="June 17, 2025 - 2:30 PM"
+            android:textSize="12sp"
+            android:textColor="@color/textColorSecondary"
+            android:layout_marginTop="8dp"
+            android:layout_gravity="end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

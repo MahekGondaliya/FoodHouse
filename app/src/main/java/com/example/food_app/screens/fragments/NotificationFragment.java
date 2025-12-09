@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
 public class NotificationFragment extends Fragment {
 
     private RecyclerView recyclerView;
@@ -35,29 +34,25 @@ public class NotificationFragment extends Fragment {
 
     private LottieAnimationView loadingAnimation;
 
-    private TextView No_Notification,notification;
+    private TextView No_Notification, notification;
     private List<NotificationModel> notificationList;
 
     private DatabaseReference databaseReference;
-
 
     public NotificationFragment() {
         // Required empty public constructor
     }
 
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view =  inflater.inflate(R.layout.fragment_notification, container, false);
+        View view = inflater.inflate(R.layout.fragment_notification, container, false);
 
         recyclerView = view.findViewById(R.id.notificationRecyclerView);
         No_Notification = view.findViewById(R.id.No_Notification);
         loadingAnimation = view.findViewById(R.id.loadingAnimation);
         notification = view.findViewById(R.id.notification);
-
 
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -75,34 +70,45 @@ public class NotificationFragment extends Fragment {
 
     private void loadNotifications() {
         loadingAnimation.setVisibility(View.VISIBLE);
-        databaseReference.orderByChild("timestamp").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                notificationList.clear();
-                for (DataSnapshot snap : snapshot.getChildren()) {
-                    NotificationModel model = snap.getValue(NotificationModel.class);
-                    if (model != null) {
-                        notificationList.add(model);
+
+        // Load ONCE, not realtime, to avoid conflicts with adapter delete
+        databaseReference.orderByChild("timestamp")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        notificationList.clear();
+
+                        for (DataSnapshot snap : snapshot.getChildren()) {
+                            NotificationModel model = snap.getValue(NotificationModel.class);
+                            if (model != null) {
+                                // Very important: set ID from key
+                                model.setNotificationId(snap.getKey());
+                                notificationList.add(model);
+                            }
+                        }
+
+                        if (notificationList.isEmpty()) {
+                            notification.setVisibility(View.GONE);
+                            No_Notification.setVisibility(View.VISIBLE);
+                        } else {
+                            // latest first
+                            Collections.reverse(notificationList);
+                            notification.setVisibility(View.VISIBLE);
+                            No_Notification.setVisibility(View.GONE);
+                        }
+
+                        adapter.notifyDataSetChanged();
+                        loadingAnimation.setVisibility(View.GONE);
                     }
-                }
-                if (notificationList.isEmpty()){
-                    notification.setVisibility(View.GONE);
-                    No_Notification.setVisibility(View.VISIBLE);
-                    loadingAnimation.setVisibility(View.GONE);
-                    return;
-                }
 
-                // Optionally sort descending
-                Collections.reverse(notificationList);
-                adapter.notifyDataSetChanged();
-                notification.setVisibility(View.VISIBLE);
-                loadingAnimation.setVisibility(View.GONE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(getContext(), "Failed to load notifications.", Toast.LENGTH_SHORT).show();
-            }
-        });
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        loadingAnimation.setVisibility(View.GONE);
+                        Toast.makeText(getContext(),
+                                "Failed to load notifications.",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
